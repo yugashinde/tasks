@@ -97,7 +97,6 @@ jobs:
               id: integrity
               run: |
                   echo "<html><body><pre>" > ./dist/integrity.html
-                  shopt -s globstar
                   find src -type f -name "*.test.ts" -exec md5sum {} + >> ./dist/integrity.html
                   find src -type f -name "*.test.tsx" -exec md5sum {} + >> ./dist/integrity.html
                   md5sum .eslintrc.js >> ./dist/integrity.html
