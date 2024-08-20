@@ -1,29 +1,40 @@
-# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+# Workflow for publishing the students' website along with additional helpful information
 
-name: Node.js CI
+name: Deploy main branch as website
 
 on:
     push:
         branches: [main]
 
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+    group: "pages"
+    cancel-in-progress: false
+
 jobs:
-    build:
+    checkout:
         runs-on: ubuntu-latest
-
-        strategy:
-            matrix:
-                node-version: [16.x]
-                # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
         steps:
-            - uses: actions/checkout@v2
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
             - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v2
+              uses: actions/setup-node@v3
               with:
                   node-version: ${{ matrix.node-version }}
-                  cache: "npm"
             - id: get-repo-values
+              name: Get repository values
               run: |
                   url=https://$(echo "${{github.repository}}" | sed "s/\//.github.io\//")
                   echo "url=$url" >> $GITHUB_OUTPUT
@@ -33,20 +44,142 @@ jobs:
                   file: package.json
                   field: homepage
                   value: ${{ steps.get-repo-values.outputs.url }}
-            - run: npm ci
-            - run: npm run lint
-            - run: npm run test -- --coverage |& tee ./public/test_report.txt
-            - run: echo "<html><head><meta http-equiv='refresh' content='0; URL=${{github.server_url}}/${{github.repository}}' /></head><body>Redirecting to repository</body></html>" > ./public/github.html
-            - run: npm run build --if-present
 
-            - name: Deploy
+    create_redirects:
+        runs-on: ubuntu-latest
+        needs: checkout
+        steps:
+            - name: Create Redirects and Links
               run: |
-                  git config --global user.name ${user_name}
-                  git config --global user.email ${user_email}
-                  git remote set-url origin https://${github_token}@github.com/${repository}
-                  npm run deploy
-              env:
-                  user_name: "github-actions[bot]"
-                  user_email: "github-actions[bot]@users.noreply.github.com"
-                  github_token: ${{ secrets.GH_TOKEN }}
-                  repository: ${{ github.repository }}
+                  echo "<html><head>\
+                  <meta http-equiv='refresh' content='0; URL=${{github.server_url}}/${{github.repository}}' />\
+                  </head><body>Redirecting to repository</body></html>" > ./dist/repo.html
+
+                  mkdir -p docs
+                  cp README.md docs/index.md
+                  echo "# Quick Links" > docs/quick-links.md
+                  echo "* [Repository](../repo.html)" >> docs/quick-links.md
+                  echo "<html><head>\
+                  <meta http-equiv='refresh' content='0; URL=docs/quick-links' />\
+                  </head><body>Redirecting to quick links page</body></html>" > ./dist/quick.html
+
+    install:
+        runs-on: ubuntu-latest
+        needs: create_redirects
+        steps:
+            # Install node packages
+            - name: Install
+              run: |
+                  echo "<html><body><pre>" > ./dist/installation.html
+                  npm install |& tee -a ./dist/installation.html
+                  echo "</pre></body></html>" >> ./dist/installation.html
+                  echo "* [Installation](../installation.html)" >> docs/quick-links.md
+
+    lint:
+        runs-on: ubuntu-latest
+        needs: install
+        if: success()
+        steps:
+            - name: Run Linter
+              run: |
+                  npm run eslint-output
+                  echo "* [Linter](../lint.html)" >> docs/quick-links.md
+
+    build:
+        runs-on: ubuntu-latest
+        needs: lint
+        if: success()
+        steps:
+            - name: Build the project
+              run: |
+                  echo "<html><body><pre>" > ./dist/build.html
+                  npm run build |& tee -a ./dist/build.html
+                  echo "</pre></body></html>" >> ./dist/build.html
+                  echo "* [Build](../build.html)" >> docs/quick-links.md
+
+    test:
+        runs-on: ubuntu-latest
+        needs: build
+        if: success()
+        steps:
+            - name: Run Tests
+              run: |
+                  echo "<html><body><pre>" > ./dist/tests.html
+                  npm run test -- --coverage |& tee -a ./dist/tests.html
+                  echo "</pre></body></html>" >> ./dist/tests.html
+                  echo "* [Tests](../tests.html)" >> docs/quick-links.md
+
+    integrity:
+        runs-on: ubuntu-latest
+        needs: create_redirects
+        if: success()
+        steps:
+            - name: Verify Integrity
+              run: |
+                  echo "<html><body><pre>" > ./dist/integrity.html
+                  FILES="test/* .eslintrc.js .eslintrc.json .github/workflows/deploy.yml src/**/*.test.ts src/**/*.test.tsx"
+                  for pattern in $FILES; do
+                    for file in $(find . -path "$pattern"); do
+                      md5sum "$file" >> ./dist/integrity.html
+                    done
+                  done
+                  echo "</pre></body></html>" >> ./dist/integrity.html
+                  echo "* [Integrity](../integrity.html)" >> docs/quick-links.md
+
+    git_inspector:
+        runs-on: ubuntu-latest
+        needs: create_redirects
+        steps:
+            - name: Create GitInspector Report
+              run: |
+                  git clone https://github.com/jpwhite3/gitinspector.git
+                  python ./gitinspector/gitinspector.py ./ --grading --format=html -f tsx,ts,html,css -x ./gitinspector -x ./node_modules -x ./wbcore > ./dist/git.html
+                  echo "* [Git Inspector](../git.html)" >> docs/quick-links.md
+
+    generate_docs:
+        runs-on: ubuntu-latest
+        needs: [install, lint, build, test, integrity, git_inspector]
+        if: success() || failure()
+        steps:
+            - name: Generate HTML from Markdown in Docs/
+              uses: ldeluigi/markdown-docs@latest
+              with:
+                  src: docs
+                  dst: dist/docs/
+
+    deploy:
+        runs-on: ubuntu-latest
+        needs: generate_docs
+        steps:
+            - name: Setup Pages
+              uses: actions/configure-pages@v3
+            - name: Upload artifact
+              uses: actions/upload-pages-artifact@v2
+              with:
+                  path: "dist/"
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v2
+
+    handle_failure:
+        runs-on: ubuntu-latest
+        needs: [create_redirects, checkout, generate_docs, deploy]
+        if: failure()
+        steps:
+            - name: Handle Failure
+              run: |
+                  echo "<html><body><h1>Build Failure</h1><p>The build failed during one of the steps.</p>" > ./dist/index.html
+            - uses: austenstone/job-summary@v2.0
+              id: job-summary
+              with:
+                  create-pdf: false
+            - run: |
+                  echo "${{ steps.job-summary.outputs.job-summary }}" >> ./dist/index.html
+                  echo "</body></html>" >> ./dist/index.html
+            - name: Upload failure artifact
+              uses: actions/upload-pages-artifact@v2
+              with:
+                  path: "dist/"
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v2
