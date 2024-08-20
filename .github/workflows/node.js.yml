@@ -98,8 +98,8 @@ jobs:
               run: |
                   echo "<html><body><pre>" > ./dist/integrity.html
                   shopt -s globstar
-                  for file in src/**/*.test.ts; do md5sum $file; done >> ./dist/integrity.html
-                  for file in src/**/*.test.tsx; do md5sum $file; done >> ./dist/integrity.html
+                  find src -type f -name "*.test.ts" -exec md5sum {} + >> ./dist/integrity.html
+                  find src -type f -name "*.test.tsx" -exec md5sum {} + >> ./dist/integrity.html
                   md5sum .eslintrc.js >> ./dist/integrity.html
                   md5sum jest.config.js >> ./dist/integrity.html
                   md5sum tsconfig.json >> ./dist/integrity.html
