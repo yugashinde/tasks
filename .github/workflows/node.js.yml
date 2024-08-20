@@ -97,12 +97,12 @@ jobs:
               id: integrity
               run: |
                   echo "<html><body><pre>" > ./dist/integrity.html
-                  FILES="test/* .eslintrc.js .eslintrc.json .github/workflows/deploy.yml src/**/*.test.ts src/**/*.test.tsx"
-                  for pattern in $FILES; do
-                    for file in $(find . -path "$pattern"); do
-                      md5sum "$file" >> ./dist/integrity.html
-                    done
-                  done
+                  for file in src/**/*.test.ts; do md5sum $file; done >> ./dist/integrity.html
+                  for file in src/**/*.test.tsx; do md5sum $file; done >> ./dist/integrity.html
+                  md5sum .eslintrc.js >> ./dist/integrity.html
+                  md5sum jest.config.js >> ./dist/integrity.html
+                  md5sum tsconfig.json >> ./dist/integrity.html
+                  md5sum .github/workflows/deploy.yml >> ./dist/integrity.html
                   echo "</pre></body></html>" >> ./dist/integrity.html
                   echo "* [Integrity](../integrity.html)" >> docs/quick-links.md
             # Create GitInspector Report
