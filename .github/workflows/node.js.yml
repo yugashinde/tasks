@@ -80,6 +80,7 @@ jobs:
               run: |
                   echo "<html><body><pre>" > ./dist/build.html
                   npm run build |& tee -a ./dist/build.html
+                  mv ./build/* ./dist
                   echo "</pre></body></html>" >> ./dist/build.html
                   echo "* [Build](../build.html)" >> docs/quick-links.md
             # Run Tests
