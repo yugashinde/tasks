@@ -51,6 +51,7 @@ jobs:
         steps:
             - name: Create Redirects and Links
               run: |
+                  mkdir -p dist
                   echo "<html><head>\
                   <meta http-equiv='refresh' content='0; URL=${{github.server_url}}/${{github.repository}}' />\
                   </head><body>Redirecting to repository</body></html>" > ./dist/repo.html
