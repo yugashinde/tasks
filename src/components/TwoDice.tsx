@@ -11,6 +11,6 @@ export function d6(): number {
     return 1 + Math.floor(Math.random() * 6);
 }
 
-export function TwoDice(): JSX.Element {
+export function TwoDice(): React.JSX.Element {
     return <div>Two Dice</div>;
 }
