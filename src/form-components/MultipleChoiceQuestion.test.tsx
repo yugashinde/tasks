@@ -4,7 +4,7 @@ import { MultipleChoiceQuestion } from "./MultipleChoiceQuestion";
 import userEvent from "@testing-library/user-event";
 
 describe("MultipleChoiceQuestion Component tests", () => {
-    test("There is a select box", () => {
+    test("(2 pts) There is a select box", () => {
         render(
             <MultipleChoiceQuestion
                 expectedAnswer="2"
@@ -13,7 +13,7 @@ describe("MultipleChoiceQuestion Component tests", () => {
         );
         expect(screen.getByRole("combobox")).toBeInTheDocument();
     });
-    test("The answer is initially incorrect", () => {
+    test("(2 pts) The answer is initially incorrect", () => {
         render(
             <MultipleChoiceQuestion
                 expectedAnswer="2"
@@ -23,7 +23,7 @@ describe("MultipleChoiceQuestion Component tests", () => {
         expect(screen.getByText(/❌/i)).toBeInTheDocument();
         expect(screen.queryByText(/✔️/i)).not.toBeInTheDocument();
     });
-    test("Can choose the correct answer", async () => {
+    test("(2 pts) Can choose the correct answer", async () => {
         render(
             <MultipleChoiceQuestion
                 expectedAnswer="2"
@@ -37,7 +37,7 @@ describe("MultipleChoiceQuestion Component tests", () => {
         expect(screen.getByText(/✔️/i)).toBeInTheDocument();
         expect(screen.queryByText(/❌/i)).not.toBeInTheDocument();
     });
-    test("Can choose the correct answer and then incorrect", async () => {
+    test("(2 pts) Can choose the correct answer and then incorrect", async () => {
         render(
             <MultipleChoiceQuestion
                 expectedAnswer="2"
@@ -56,7 +56,7 @@ describe("MultipleChoiceQuestion Component tests", () => {
         expect(screen.getByText(/❌/i)).toBeInTheDocument();
         expect(screen.queryByText(/✔️/i)).not.toBeInTheDocument();
     });
-    test("Can start off initially correct", async () => {
+    test("(2 pts) Can start off initially correct", async () => {
         render(
             <MultipleChoiceQuestion
                 expectedAnswer="Alpha"
@@ -70,7 +70,7 @@ describe("MultipleChoiceQuestion Component tests", () => {
         expect(screen.getByText(/✔️/i)).toBeInTheDocument();
         expect(screen.queryByText(/❌/i)).not.toBeInTheDocument();
     });
-    test("One more test of choosing the right answer", async () => {
+    test("(2 pts) One more test of choosing the right answer", async () => {
         render(
             <MultipleChoiceQuestion
                 expectedAnswer="World"

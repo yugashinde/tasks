@@ -8,16 +8,16 @@ describe("GiveAttempts Component tests", () => {
         render(<GiveAttempts />);
     });
 
-    test("There is a number entry box and two buttons", () => {
+    test("(2 pts) There is a number entry box and two buttons", () => {
         expect(screen.getByRole("spinbutton")).toBeInTheDocument();
         expect(screen.getAllByRole("button")).toHaveLength(2);
     });
 
-    test("There is are initially 3 attempts", () => {
+    test("(2 pts) There is are initially 3 attempts", () => {
         expect(screen.getByText(/3/i)).toBeInTheDocument();
     });
 
-    test("You can use attempts", async () => {
+    test("(2 pts) You can use attempts", async () => {
         const use = screen.getByRole("button", { name: /use/i });
         await act(async () => {
             use.click();
@@ -32,7 +32,7 @@ describe("GiveAttempts Component tests", () => {
         expect(screen.getByText(/0/i)).toBeInTheDocument();
         expect(use).toBeDisabled();
     });
-    test("You can gain arbitrary attempts", async () => {
+    test("(2 pts) You can gain arbitrary attempts", async () => {
         const gain = screen.getByRole("button", { name: /gain/i });
         const amountToGive = screen.getByRole("spinbutton");
         await act(async () => {
@@ -50,7 +50,7 @@ describe("GiveAttempts Component tests", () => {
         });
         expect(screen.getByText(/113/i)).toBeInTheDocument();
     });
-    test("Cannot gain blank amounts", async () => {
+    test("(2 pts) Cannot gain blank amounts", async () => {
         const gain = screen.getByRole("button", { name: /gain/i });
         const amountToGive = screen.getByRole("spinbutton");
         await act(async () => {
