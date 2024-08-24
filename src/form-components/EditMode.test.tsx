@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { EditMode } from "./EditMode";
 import userEvent from "@testing-library/user-event";
@@ -14,35 +14,55 @@ describe("EditMode Component tests", () => {
     test("Initial text should be 'Your Name is a student'.", () => {
         expect(screen.getByText(/Your Name is a student/i)).toBeInTheDocument();
     });
-    test("Can switch into Edit Mode", () => {
+    test("Can switch into Edit Mode", async () => {
         const switchButton = screen.getByRole("checkbox");
-        switchButton.click();
+        await act(async () => {
+            switchButton.click();
+        });
         expect(screen.getByRole("textbox")).toBeInTheDocument();
         expect(screen.getAllByRole("checkbox")).toHaveLength(2);
     });
-    test("Editing the name and student status changes the text", () => {
+    test("Editing the name and student status changes the text", async () => {
         const switchButton = screen.getByRole("checkbox");
-        switchButton.click();
+        await act(async () => {
+            switchButton.click();
+        });
         const nameBox = screen.getByRole("textbox");
-        userEvent.type(nameBox, "Ada Lovelace");
+        await act(async () => {
+            userEvent.type(nameBox, "Ada Lovelace");
+        });
         const studentBox = screen.getByRole("checkbox", { name: /student/i });
-        studentBox.click();
-        switchButton.click();
+        await act(async () => {
+            studentBox.click();
+        });
+        await act(async () => {
+            switchButton.click();
+        });
         expect(
-            screen.getByText(/Ada Lovelace is not a student/i)
+            screen.getByText(/Ada Lovelace is not a student/i),
         ).toBeInTheDocument();
     });
-    test("Different name, click student box twice changes the text", () => {
+    test("Different name, click student box twice changes the text", async () => {
         const switchButton = screen.getByRole("checkbox");
-        switchButton.click();
+        await act(async () => {
+            switchButton.click();
+        });
         const nameBox = screen.getByRole("textbox");
-        userEvent.type(nameBox, "Alan Turing");
+        await act(async () => {
+            userEvent.type(nameBox, "Alan Turing");
+        });
         const studentBox = screen.getByRole("checkbox", { name: /student/i });
-        studentBox.click();
-        studentBox.click();
-        switchButton.click();
+        await act(async () => {
+            studentBox.click();
+        });
+        await act(async () => {
+            studentBox.click();
+        });
+        await act(async () => {
+            switchButton.click();
+        });
         expect(
-            screen.getByText(/Alan Turing is a student/i)
+            screen.getByText(/Alan Turing is a student/i),
         ).toBeInTheDocument();
     });
 });

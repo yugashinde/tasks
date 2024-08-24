@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { GiveAttempts } from "./GiveAttempts";
 import userEvent from "@testing-library/user-event";
@@ -17,30 +17,48 @@ describe("GiveAttempts Component tests", () => {
         expect(screen.getByText(/3/i)).toBeInTheDocument();
     });
 
-    test("You can use attempts", () => {
+    test("You can use attempts", async () => {
         const use = screen.getByRole("button", { name: /use/i });
-        use.click();
+        await act(async () => {
+            use.click();
+        });
         expect(screen.getByText(/2/i)).toBeInTheDocument();
-        use.click();
-        use.click();
+        await act(async () => {
+            use.click();
+        });
+        await act(async () => {
+            use.click();
+        });
         expect(screen.getByText(/0/i)).toBeInTheDocument();
         expect(use).toBeDisabled();
     });
-    test("You can gain arbitrary attempts", () => {
+    test("You can gain arbitrary attempts", async () => {
         const gain = screen.getByRole("button", { name: /gain/i });
         const amountToGive = screen.getByRole("spinbutton");
-        userEvent.type(amountToGive, "10");
-        gain.click();
+        await act(async () => {
+            userEvent.type(amountToGive, "10");
+        });
+        await act(async () => {
+            gain.click();
+        });
         expect(screen.getByText(/13/i)).toBeInTheDocument();
-        userEvent.type(amountToGive, "100");
-        gain.click();
+        await act(async () => {
+            userEvent.type(amountToGive, "100");
+        });
+        await act(async () => {
+            gain.click();
+        });
         expect(screen.getByText(/113/i)).toBeInTheDocument();
     });
-    test("Cannot gain blank amounts", () => {
+    test("Cannot gain blank amounts", async () => {
         const gain = screen.getByRole("button", { name: /gain/i });
         const amountToGive = screen.getByRole("spinbutton");
-        fireEvent.change(amountToGive, { target: { value: "" } });
-        gain.click();
+        await act(async () => {
+            fireEvent.change(amountToGive, { target: { value: "" } });
+        });
+        await act(async () => {
+            gain.click();
+        });
         expect(screen.getByText(/3/i)).toBeInTheDocument();
     });
 });

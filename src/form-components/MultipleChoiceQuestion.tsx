@@ -2,11 +2,11 @@ import React, { useState } from "react";
 
 export function MultipleChoiceQuestion({
     options,
-    expectedAnswer
+    expectedAnswer,
 }: {
     options: string[];
     expectedAnswer: string;
-}): JSX.Element {
+}): React.JSX.Element {
     return (
         <div>
             <h3>Multiple Choice Question</h3>

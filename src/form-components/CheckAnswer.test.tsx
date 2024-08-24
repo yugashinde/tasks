@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { CheckAnswer } from "./CheckAnswer";
 import userEvent from "@testing-library/user-event";
@@ -14,31 +14,39 @@ describe("CheckAnswer Component tests", () => {
         expect(screen.getByText(/❌/i)).toBeInTheDocument();
         expect(screen.queryByText(/✔️/i)).not.toBeInTheDocument();
     });
-    test("Entering the right answer makes it correct.", () => {
+    test("Entering the right answer makes it correct.", async () => {
         render(<CheckAnswer expectedAnswer="42" />);
         const inputBox = screen.getByRole("textbox");
-        userEvent.type(inputBox, "42");
+        await act(async () => {
+            userEvent.type(inputBox, "42");
+        });
         expect(screen.getByText(/✔️/i)).toBeInTheDocument();
         expect(screen.queryByText(/❌/i)).not.toBeInTheDocument();
     });
-    test("Entering the wrong answer makes it incorrect.", () => {
+    test("Entering the wrong answer makes it incorrect.", async () => {
         render(<CheckAnswer expectedAnswer="42" />);
         const inputBox = screen.getByRole("textbox");
-        userEvent.type(inputBox, "43");
+        await act(async () => {
+            userEvent.type(inputBox, "43");
+        });
         expect(screen.getByText(/❌/i)).toBeInTheDocument();
         expect(screen.queryByText(/✔️/i)).not.toBeInTheDocument();
     });
-    test("Entering a different right answer makes it correct.", () => {
+    test("Entering a different right answer makes it correct.", async () => {
         render(<CheckAnswer expectedAnswer="Hello" />);
         const inputBox = screen.getByRole("textbox");
-        userEvent.type(inputBox, "Hello");
+        await act(async () => {
+            userEvent.type(inputBox, "Hello");
+        });
         expect(screen.getByText(/✔️/i)).toBeInTheDocument();
         expect(screen.queryByText(/❌/i)).not.toBeInTheDocument();
     });
-    test("Entering a different wrong answer still makes it incorrect.", () => {
+    test("Entering a different wrong answer still makes it incorrect.", async () => {
         render(<CheckAnswer expectedAnswer="Hello" />);
         const inputBox = screen.getByRole("textbox");
-        userEvent.type(inputBox, "42");
+        await act(async () => {
+            userEvent.type(inputBox, "42");
+        });
         expect(screen.getByText(/❌/i)).toBeInTheDocument();
         expect(screen.queryByText(/✔️/i)).not.toBeInTheDocument();
     });

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export function GiveAttempts(): JSX.Element {
+export function GiveAttempts(): React.JSX.Element {
     return (
         <div>
             <h3>Give Attempts</h3>

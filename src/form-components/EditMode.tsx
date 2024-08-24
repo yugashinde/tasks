@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export function EditMode(): JSX.Element {
+export function EditMode(): React.JSX.Element {
     return (
         <div>
             <h3>Edit Mode</h3>
