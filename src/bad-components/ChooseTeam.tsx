@@ -7,10 +7,10 @@ const PEOPLE = [
     "Ada Lovelace",
     "Charles Babbage",
     "Barbara Liskov",
-    "Margaret Hamilton"
+    "Margaret Hamilton",
 ];
 
-export function ChooseTeam(): JSX.Element {
+export function ChooseTeam(): React.JSX.Element {
     const [allOptions, setAllOptions] = useState<string[]>(PEOPLE);
     const [team, setTeam] = useState<string[]>([]);
 

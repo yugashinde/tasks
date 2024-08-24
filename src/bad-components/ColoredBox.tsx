@@ -4,16 +4,20 @@ import { Button } from "react-bootstrap";
 export const COLORS = ["red", "blue", "green"];
 const DEFAULT_COLOR_INDEX = 0;
 
-function ChangeColor(): JSX.Element {
+function ChangeColor(): React.JSX.Element {
     const [colorIndex, setColorIndex] = useState<number>(DEFAULT_COLOR_INDEX);
     return (
-        <Button onClick={() => setColorIndex((1 + colorIndex) % COLORS.length)}>
+        <Button
+            onClick={() => {
+                setColorIndex((1 + colorIndex) % COLORS.length);
+            }}
+        >
             Next Color
         </Button>
     );
 }
 
-function ColorPreview(): JSX.Element {
+function ColorPreview(): React.JSX.Element {
     return (
         <div
             data-testid="colored-box"
@@ -23,13 +27,13 @@ function ColorPreview(): JSX.Element {
                 backgroundColor: COLORS[DEFAULT_COLOR_INDEX],
                 display: "inline-block",
                 verticalAlign: "bottom",
-                marginLeft: "5px"
+                marginLeft: "5px",
             }}
         ></div>
     );
 }
 
-export function ColoredBox(): JSX.Element {
+export function ColoredBox(): React.JSX.Element {
     return (
         <div>
             <h3>Colored Box</h3>

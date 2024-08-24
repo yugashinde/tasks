@@ -16,7 +16,7 @@ import { EditMode } from "./form-components/EditMode";
 import { MultipleChoiceQuestion } from "./form-components/MultipleChoiceQuestion";
 import { ChangeColor } from "./form-components/ChangeColor";
 
-function App(): JSX.Element {
+function App(): React.JSX.Element {
     return (
         <div className="App">
             <header className="App-header">

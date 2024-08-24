@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { ChooseTeam } from "./ChooseTeam";
 
@@ -6,54 +6,74 @@ describe("ChooseTeam Component tests", () => {
     beforeEach(() => {
         render(<ChooseTeam />);
     });
-    test("The initial team is empty", () => {
+    test("(2 pts) The initial team is empty", () => {
         const currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(0);
     });
-    test("There are 7 buttons.", () => {
+    test("(2 pts) There are 7 buttons.", () => {
         const adders = screen.queryAllByRole("button");
         expect(adders).toHaveLength(7);
     });
-    test("Clicking first team member works", () => {
+    test("(2 pts) Clicking first team member works", async () => {
         const first = screen.queryAllByRole("button")[0];
-        first.click();
+        await act(async () => {
+            first.click();
+        });
         const currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(1);
         expect(currentTeam[0].textContent).toEqual(first.textContent);
     });
-    test("Clicking the third team member works", () => {
+    test("(2 pts) Clicking the third team member works", async () => {
         const third = screen.queryAllByRole("button")[2];
-        third.click();
+        await act(async () => {
+            third.click();
+        });
         const currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(1);
         expect(currentTeam[0].textContent).toEqual(third.textContent);
     });
-    test("Clicking three team members works", () => {
+    test("(2 pts) Clicking three team members works", async () => {
         const [, second, third, , fifth] = screen.queryAllByRole("button");
-        third.click();
-        second.click();
-        fifth.click();
+        await act(async () => {
+            third.click();
+        });
+        await act(async () => {
+            second.click();
+        });
+        await act(async () => {
+            fifth.click();
+        });
         const currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(3);
         expect(currentTeam[0].textContent).toEqual(third.textContent);
         expect(currentTeam[1].textContent).toEqual(second.textContent);
         expect(currentTeam[2].textContent).toEqual(fifth.textContent);
     });
-    test("Clearing the team works", () => {
+    test("(2 pts) Clearing the team works", async () => {
         const [, second, third, fourth, fifth, , clear] =
             screen.queryAllByRole("button");
-        third.click();
-        second.click();
-        fifth.click();
+        await act(async () => {
+            third.click();
+        });
+        await act(async () => {
+            second.click();
+        });
+        await act(async () => {
+            fifth.click();
+        });
         let currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(3);
         expect(currentTeam[0].textContent).toEqual(third.textContent);
         expect(currentTeam[1].textContent).toEqual(second.textContent);
         expect(currentTeam[2].textContent).toEqual(fifth.textContent);
-        clear.click();
+        await act(async () => {
+            clear.click();
+        });
         currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(0);
-        fourth.click();
+        await act(async () => {
+            fourth.click();
+        });
         currentTeam = screen.queryAllByRole("listitem");
         expect(currentTeam).toHaveLength(1);
         expect(currentTeam[0].textContent).toEqual(fourth.textContent);
