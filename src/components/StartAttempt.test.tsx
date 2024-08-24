@@ -27,36 +27,36 @@ describe("StartAttempt Component tests", () => {
     beforeEach(() => {
         render(<StartAttempt />);
     });
-    test("The Number of attempts is displayed initially, without other numbers", () => {
+    test("(1 pts) The Number of attempts is displayed initially, without other numbers", () => {
         const attemptNumber = screen.getByText(/(\d+)/);
         expect(attemptNumber).toBeInTheDocument();
     });
-    test("The Number of attempts is more than 0", () => {
+    test("(1 pts) The Number of attempts is more than 0", () => {
         const attemptNumber = extractDigits(screen.getByText(/(\d+)/));
         expect(attemptNumber).toBeGreaterThan(0);
     });
-    test("The Number of attempts is less than 10", () => {
+    test("(1 pts) The Number of attempts is less than 10", () => {
         const attemptNumber = extractDigits(screen.getByText(/(\d+)/));
         expect(attemptNumber).toBeLessThan(10);
     });
-    test("There is an initially enabled Start Quiz button", () => {
+    test("(1 pts) There is an initially enabled Start Quiz button", () => {
         const startButton = screen.getByRole("button", { name: /Start Quiz/i });
         expect(startButton).toBeInTheDocument();
         expect(startButton).toBeEnabled();
     });
-    test("There is an initially disabled Stop Quiz button", () => {
+    test("(1 pts) There is an initially disabled Stop Quiz button", () => {
         const stopButton = screen.getByRole("button", { name: /Stop Quiz/i });
         expect(stopButton).toBeInTheDocument();
         expect(stopButton).toBeDisabled();
     });
-    test("There is an initially enabled Mulligan button", () => {
+    test("(1 pts) There is an initially enabled Mulligan button", () => {
         const mulliganButton = screen.getByRole("button", {
             name: /Mulligan/i
         });
         expect(mulliganButton).toBeInTheDocument();
         expect(mulliganButton).toBeEnabled();
     });
-    test("Clicking Mulligan increases attempts", () => {
+    test("(1 pts) Clicking Mulligan increases attempts", () => {
         const attemptNumber: number =
             extractDigits(screen.getByText(/(\d+)/)) || 0;
         const mulliganButton = screen.getByRole("button", {
@@ -66,7 +66,7 @@ describe("StartAttempt Component tests", () => {
         const attemptNumberLater = extractDigits(screen.getByText(/(\d+)/));
         expect(attemptNumber + 1).toEqual(attemptNumberLater);
     });
-    test("Clicking Mulligan twice increases attempts by two", () => {
+    test("(1 pts) Clicking Mulligan twice increases attempts by two", () => {
         const attemptNumber: number =
             extractDigits(screen.getByText(/(\d+)/)) || 0;
         const mulliganButton = screen.getByRole("button", {
@@ -77,7 +77,7 @@ describe("StartAttempt Component tests", () => {
         const attemptNumberLater = extractDigits(screen.getByText(/(\d+)/));
         expect(attemptNumber + 2).toEqual(attemptNumberLater);
     });
-    test("Clicking Start Quiz decreases attempts", () => {
+    test("(1 pts) Clicking Start Quiz decreases attempts", () => {
         const attemptNumber: number =
             extractDigits(screen.getByText(/(\d+)/)) || 0;
         const startButton = screen.getByRole("button", {
@@ -88,7 +88,7 @@ describe("StartAttempt Component tests", () => {
             extractDigits(screen.getByText(/(\d+)/)) || 0;
         expect(attemptNumber - 1).toEqual(attemptNumberLater);
     });
-    test("Clicking Start Quiz changes enabled buttons", () => {
+    test("(1 pts) Clicking Start Quiz changes enabled buttons", () => {
         // Given the buttons...
         const startButton = screen.getByRole("button", {
             name: /Start Quiz/i
@@ -104,7 +104,7 @@ describe("StartAttempt Component tests", () => {
         expect(stopButton).toBeEnabled();
         expect(mulliganButton).toBeDisabled();
     });
-    test("Clicking Start and Stop Quiz changes enabled buttons", () => {
+    test("(1 pts) Clicking Start and Stop Quiz changes enabled buttons", () => {
         // Given the buttons and initial attempt number...
         const startButton = screen.getByRole("button", {
             name: /Start Quiz/i
@@ -121,7 +121,7 @@ describe("StartAttempt Component tests", () => {
         expect(stopButton).toBeDisabled();
         expect(mulliganButton).toBeEnabled();
     });
-    test("Clicking Start, Stop, Mulligan sets attempts to original", () => {
+    test("(1 pts) Clicking Start, Stop, Mulligan sets attempts to original", () => {
         // Given the buttons and initial attempt number...
         const startButton = screen.getByRole("button", {
             name: /Start Quiz/i
@@ -146,7 +146,7 @@ describe("StartAttempt Component tests", () => {
             extractDigits(screen.getByText(/(\d+)/)) || 0;
         expect(attemptNumber).toEqual(attemptNumberLatest);
     });
-    test("Cannot click start quiz when out of attempts", () => {
+    test("(1 pts) Cannot click start quiz when out of attempts", () => {
         // Given the buttons and initial attempt number...
         const startButton = screen.getByRole("button", {
             name: /Start Quiz/i

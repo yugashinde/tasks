@@ -7,12 +7,12 @@ describe("CycleHoliday Component tests", () => {
         render(<CycleHoliday />);
     });
 
-    test("An initial holiday is displayed", () => {
+    test("(1 pts) An initial holiday is displayed", () => {
         const initialHoliday = screen.getByText(/Holiday: (.*)/i);
         expect(initialHoliday).toBeInTheDocument();
     });
 
-    test("There are two buttons", () => {
+    test("(1 pts) There are two buttons", () => {
         const alphabetButton = screen.getByRole("button", {
             name: /Alphabet/i
         });
@@ -23,7 +23,7 @@ describe("CycleHoliday Component tests", () => {
         expect(yearButton).toBeInTheDocument();
     });
 
-    test("Can cycle through 5 distinct holidays alphabetically", () => {
+    test("(1 pts) Can cycle through 5 distinct holidays alphabetically", () => {
         const alphabetButton = screen.getByRole("button", {
             name: /Alphabet/i
         });
@@ -38,7 +38,7 @@ describe("CycleHoliday Component tests", () => {
         expect(states[0]).toEqual(states[5]);
     });
 
-    test("Can cycle through 5 distinct holidays by year", () => {
+    test("(1 pts) Can cycle through 5 distinct holidays by year", () => {
         const yearButton = screen.getByRole("button", {
             name: /Year/i
         });

@@ -6,25 +6,25 @@ describe("ChangeType Component tests", () => {
     beforeEach(() => {
         render(<ChangeType />);
     });
-    test("The initial type is Short Answer", () => {
+    test("(1 pts) The initial type is Short Answer", () => {
         // We use `getByText` because the text MUST be there
         const typeText = screen.getByText(/Short Answer/i);
         expect(typeText).toBeInTheDocument();
     });
-    test("The initial type is not Multiple Choice", () => {
+    test("(1 pts) The initial type is not Multiple Choice", () => {
         // We use `queryByText` because the text might not be there
         const typeText = screen.queryByText(/Multiple Choice/i);
         expect(typeText).toBeNull();
     });
 
-    test("There is a button labeled Change Type", () => {
+    test("(1 pts) There is a button labeled Change Type", () => {
         const changeTypeButton = screen.getByRole("button", {
             name: /Change Type/i
         });
         expect(changeTypeButton).toBeInTheDocument();
     });
 
-    test("Clicking the button changes the type.", () => {
+    test("(1 pts) Clicking the button changes the type.", () => {
         const changeTypeButton = screen.getByRole("button", {
             name: /Change Type/i
         });
@@ -37,7 +37,7 @@ describe("ChangeType Component tests", () => {
         expect(typeTextSA).toBeNull();
     });
 
-    test("Clicking the button twice keeps the type the same.", () => {
+    test("(1 pts) Clicking the button twice keeps the type the same.", () => {
         const changeTypeButton = screen.getByRole("button", {
             name: /Change Type/i
         });

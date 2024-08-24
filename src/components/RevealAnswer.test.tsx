@@ -6,17 +6,17 @@ describe("RevealAnswer Component tests", () => {
     beforeEach(() => {
         render(<RevealAnswer />);
     });
-    test("The answer '42' is not visible initially", () => {
+    test("(1 pts) The answer '42' is not visible initially", () => {
         const answerText = screen.queryByText(/42/);
         expect(answerText).toBeNull();
     });
-    test("There is a Reveal Answer button", () => {
+    test("(1 pts) There is a Reveal Answer button", () => {
         const revealButton = screen.getByRole("button", {
             name: /Reveal Answer/i
         });
         expect(revealButton).toBeInTheDocument();
     });
-    test("Clicking Reveal Answer button reveals the '42'", () => {
+    test("(1 pts) Clicking Reveal Answer button reveals the '42'", () => {
         const revealButton = screen.getByRole("button", {
             name: /Reveal Answer/i
         });
@@ -24,7 +24,7 @@ describe("RevealAnswer Component tests", () => {
         const answerText = screen.getByText(/42/);
         expect(answerText).toBeInTheDocument();
     });
-    test("Clicking Reveal Answer button twice hides the '42'", () => {
+    test("(1 pts) Clicking Reveal Answer button twice hides the '42'", () => {
         const revealButton = screen.getByRole("button", {
             name: /Reveal Answer/i
         });

@@ -22,13 +22,13 @@ describe("TwoDice Component tests", () => {
     beforeEach(() => {
         render(<TwoDice />);
     });
-    test("There is a `left-die` and `right-die` testid", () => {
+    test("(1 pts) There is a `left-die` and `right-die` testid", () => {
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         expect(leftDie).toBeInTheDocument();
         expect(rightDie).toBeInTheDocument();
     });
-    test("The `left-die` and `right-die` are two different numbers", () => {
+    test("(1 pts) The `left-die` and `right-die` are two different numbers", () => {
         const leftDie = screen.getByTestId("left-die");
         const rightDie = screen.getByTestId("right-die");
         const leftNumber = extractDigits(leftDie);
@@ -39,13 +39,13 @@ describe("TwoDice Component tests", () => {
         // Then they are two different numbers
         expect(leftNumber).not.toEqual(rightNumber);
     });
-    test("There are two buttons present", () => {
+    test("(1 pts) There are two buttons present", () => {
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
         expect(leftButton).toBeInTheDocument();
         expect(rightButton).toBeInTheDocument();
     });
-    test("Clicking left button changes first number", () => {
+    test("(1 pts) Clicking left button changes first number", () => {
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         leftButton.click();
         leftButton.click();
@@ -57,7 +57,7 @@ describe("TwoDice Component tests", () => {
         expect(leftNumber).toEqual(5);
     });
     // Clicking right button changes second number
-    test("Clicking right button changes second number", () => {
+    test("(1 pts) Clicking right button changes second number", () => {
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
         rightButton.click();
         rightButton.click();
@@ -69,7 +69,7 @@ describe("TwoDice Component tests", () => {
         expect(rightNumber).toEqual(5);
     });
     // Rolling two different numbers does not win or lose the game
-    test("Rolling two different numbers does not win or lose the game", () => {
+    test("(1 pts) Rolling two different numbers does not win or lose the game", () => {
         // Given
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
@@ -90,7 +90,7 @@ describe("TwoDice Component tests", () => {
         const loseText = screen.queryByText(/Lose/i);
         expect(loseText).toBeNull();
     });
-    test("Getting snake eyes loses the game", () => {
+    test("(1 pts) Getting snake eyes loses the game", () => {
         // Given
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
@@ -114,7 +114,7 @@ describe("TwoDice Component tests", () => {
         const loseText = screen.getByText(/Lose/i);
         expect(loseText).toBeInTheDocument();
     });
-    test("Getting matching numbers wins the game", () => {
+    test("(1 pts) Getting matching numbers wins the game", () => {
         // Given
         const leftButton = screen.getByRole("button", { name: /Roll Left/i });
         const rightButton = screen.getByRole("button", { name: /Roll Right/i });
