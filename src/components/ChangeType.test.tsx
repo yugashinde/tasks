@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { ChangeType } from "./ChangeType";
 
@@ -19,16 +19,18 @@ describe("ChangeType Component tests", () => {
 
     test("(1 pts) There is a button labeled Change Type", () => {
         const changeTypeButton = screen.getByRole("button", {
-            name: /Change Type/i
+            name: /Change Type/i,
         });
         expect(changeTypeButton).toBeInTheDocument();
     });
 
-    test("(1 pts) Clicking the button changes the type.", () => {
+    test("(1 pts) Clicking the button changes the type.", async () => {
         const changeTypeButton = screen.getByRole("button", {
-            name: /Change Type/i
+            name: /Change Type/i,
         });
-        changeTypeButton.click();
+        await act(async () => {
+            changeTypeButton.click();
+        });
         // Should be Multiple Choice
         const typeTextMC = screen.getByText(/Multiple Choice/i);
         expect(typeTextMC).toBeInTheDocument();
@@ -37,12 +39,16 @@ describe("ChangeType Component tests", () => {
         expect(typeTextSA).toBeNull();
     });
 
-    test("(1 pts) Clicking the button twice keeps the type the same.", () => {
+    test("(1 pts) Clicking the button twice keeps the type the same.", async () => {
         const changeTypeButton = screen.getByRole("button", {
-            name: /Change Type/i
+            name: /Change Type/i,
         });
-        changeTypeButton.click();
-        changeTypeButton.click();
+        await act(async () => {
+            changeTypeButton.click();
+        });
+        await act(async () => {
+            changeTypeButton.click();
+        });
         // Should be Short Answer
         const typeTextSA = screen.getByText(/Short Answer/i);
         expect(typeTextSA).toBeInTheDocument();

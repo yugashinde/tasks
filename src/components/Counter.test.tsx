@@ -1,4 +1,4 @@
-import React from "react";
+import React, { act } from "react";
 import { render, screen } from "@testing-library/react";
 import { Counter } from "./Counter";
 
@@ -22,17 +22,23 @@ describe("Counter Component tests", () => {
         expect(addOneButton).toBeInTheDocument();
     });
 
-    test("(1 pts) Clicking the button once adds one", () => {
+    test("(1 pts) Clicking the button once adds one", async () => {
         const addOneButton = screen.getByRole("button", { name: /Add One/i });
-        addOneButton.click();
+        await act(async () => {
+            addOneButton.click();
+        });
         const valueText = screen.getByText(/1/i);
         expect(valueText).toBeInTheDocument();
     });
 
-    test("(1 pts) Clicking the button twice adds two", () => {
+    test("(1 pts) Clicking the button twice adds two", async () => {
         const addOneButton = screen.getByRole("button", { name: /Add One/i });
-        addOneButton.click();
-        addOneButton.click();
+        await act(async () => {
+            addOneButton.click();
+        });
+        await act(async () => {
+            addOneButton.click();
+        });
         const valueText = screen.getByText(/2/i);
         expect(valueText).toBeInTheDocument();
     });
