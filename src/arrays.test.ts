@@ -261,6 +261,14 @@ describe("Testing the array functions", () => {
 
     //////////////////////////////////
     // injectPositive
+    /*const NUMBERS_1 = [1, 2, 3];
+    const NUMBERS_2 = [100, 300, 200];
+    const NUMBERS_3 = [5];
+    const NUMBERS_4: number[] = [];
+    const NUMBERS_5 = [100, 199, 1, -5, 7, 3];
+    const NUMBERS_6 = [-100, -200, 100, 200];
+    const NUMBERS_7 = [199, 1, 550, 50, 200];*/
+    
     test("(3 pts) Testing the injectPositive function", () => {
         expect(injectPositive(NUMBERS_1)).toEqual([1, 2, 3, 6]);
         expect(injectPositive(NUMBERS_2)).toEqual([100, 300, 200, 600]);
