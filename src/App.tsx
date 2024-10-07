@@ -1,6 +1,11 @@
 import React from "react";
 import "./App.css";
-import { Button } from "react-bootstrap";
+import { ChangeType } from "./components/ChangeType";
+import { RevealAnswer } from "./components/RevealAnswer";
+import { StartAttempt } from "./components/StartAttempt";
+import { TwoDice } from "./components/TwoDice";
+import { CycleHoliday } from "./components/CycleHoliday";
+import { Counter } from "./components/Counter";
 
 
 function App(): React.JSX.Element {
@@ -9,30 +14,18 @@ function App(): React.JSX.Element {
             <header className="App-header">
                Hello World Yuga UD CISC275 with React Hooks and TypeScript
             </header>
-            <p>
-                Edit <code>src/App.tsx</code> and save. This page will
-                automatically reload.
-            </p>
-    
-            return <h1> <span style={ {color: 'blue'} }>This is header</span> </h1>; 
-            
-            return <div style= {{backgroundColor : 'red'}}></div>
-            <img src="../assets/images/pet-ada.jpg" alt="A picture of my dog Ada" />
-         
-            
-            
-        return <div>
-            Ordered List:
-        <ol>
-            <li>watermelon</li>
-            <li>mango</li>
-            <li>kiwi</li>
-        </ol>
-         </div>;
-
-        return <div>
-            <Button onClick= {()=> { console.log("Hello World!")}}>Log Hello World</Button>
-        </div>;
+            <hr></hr>
+            <Counter></Counter>
+            <hr />
+            <RevealAnswer></RevealAnswer>
+            <hr />
+            <StartAttempt></StartAttempt>
+            <hr />
+            <TwoDice></TwoDice>
+            <hr />
+            <ChangeType></ChangeType>
+            <hr />
+            <CycleHoliday></CycleHoliday>
         </div>
     );
     
