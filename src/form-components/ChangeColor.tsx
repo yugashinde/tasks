@@ -1,4 +1,4 @@
-import React, { Reducer, useState } from "react";
+import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Form }from "react-bootstrap";
 
@@ -49,7 +49,7 @@ export function ChangeColor(): React.JSX.Element {
             }} 
             >
 
-            You have chosen {colors.find(color => color.hex === c)?.name}.
+            You have chosen the {colors.find(color => color.hex === c)?.name}.
             </div>
         </div>
     );
