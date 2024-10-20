@@ -5,7 +5,7 @@ import {Form }from "react-bootstrap";
 export function ChangeColor(): React.JSX.Element {
 
     const colors = [ 
-        {name :"red", hex : "#880808"},
+        {name :"red", hex : "#ff0000"},
         {name :"baby blue", hex :"#89CFF0"},
         {name : "baby pink" , hex : "#F4C2C2"},
         {name : "sage green" , hex : "#B2AC88"},
@@ -26,7 +26,9 @@ export function ChangeColor(): React.JSX.Element {
         <div>
             <h3>Change Color</h3>
             <Form>
+                
                  {colors.map((color) => (
+                    
             <Form.Check 
             inline 
             type = "radio"
@@ -36,21 +38,30 @@ export function ChangeColor(): React.JSX.Element {
             value = {color.hex}
             checked={c === color.hex}
             onChange = {updateColors} 
-            />
-        ))}
-        </Form>
-        <div
             data-testid= "colored-box" 
-            style = {{
-                marginTop: '20px',
-                padding: '20px',
-                backgroundColor:c,
-                color: "#000000" ,
-            }} 
-            >
+            style={{
+                        backgroundColor: color.hex,
+                        padding: '5px',
+                        borderRadius: '4px',
+                    }}
 
-            You have chosen the {colors.find(color => color.hex === c)?.name}.
-            </div>
+            
+            />
+            
+        )) } 
+
+        
+        </Form>
+        <div>
+            You have chosen the <span
+                    style={{
+                        backgroundColor: c,
+                        padding: '5px',
+                        borderRadius: '4px',
+                    }}
+                > {colors.find(color => color.hex === c)?.name}.
+            </span> 
+            </div> 
         </div>
     );
 }
