@@ -38,7 +38,7 @@ export function ChangeColor(): React.JSX.Element {
             value = {color.hex}
             checked={c === color.hex}
             onChange = {updateColors} 
-            data-testid= "colored-box" 
+            
             style={{
                         backgroundColor: color.hex,
                         padding: '5px',
@@ -52,7 +52,9 @@ export function ChangeColor(): React.JSX.Element {
 
         
         </Form>
-        <div>
+        <div
+            data-testid= "colored-box" >
+                
             You have chosen the <span
                     style={{
                         backgroundColor: c,
