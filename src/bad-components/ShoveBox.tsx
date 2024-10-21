@@ -1,4 +1,5 @@
 
+
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
@@ -7,6 +8,20 @@ function ShoveBoxButton({ setPosition,}: {setPosition: React.Dispatch<React.SetS
         <Button
             onClick={() => {
                 setPosition( (prevPosition: number) => prevPosition + 4);
+
+import React, { useState } from "react";
+import { Button } from "react-bootstrap";
+
+function ShoveBoxButton({ 
+    setPosition,
+}: {
+    setPosition: (newPosition: number) => void;
+}) {
+    return (
+        <Button
+            onClick={() => {
+                setPosition((prevPosition: number) => prevPosition +4 );
+
             }}
         >
             Shove the Box

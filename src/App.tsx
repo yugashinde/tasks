@@ -10,6 +10,7 @@ import { DoubleHalf } from "./bad-components/DoubleHalf";
 import { ColoredBox } from "./bad-components/ColoredBox";
 import { ShoveBox } from "./bad-components/ShoveBox";
 import { ChooseTeam } from "./bad-components/ChooseTeam";
+
 import { CheckAnswer } from "./form-components/CheckAnswer";
 import { GiveAttempts } from "./form-components/GiveAttempts";
 import { EditMode } from "./form-components/EditMode";
@@ -17,13 +18,19 @@ import { MultipleChoiceQuestion } from "./form-components/MultipleChoiceQuestion
 import { ChangeColor } from "./form-components/ChangeColor";
 
 
+
 function App(): React.JSX.Element {
     return (
         <div className="App">
             <header className="App-header">
+
                Hello World Yuga UD CISC275 with React Hooks and TypeScript
+=======
+        
+
             </header>
             <hr></hr>
+
             <CheckAnswer expectedAnswer="42"></CheckAnswer>
             <hr></hr>
             <GiveAttempts></GiveAttempts>
@@ -38,6 +45,8 @@ function App(): React.JSX.Element {
             ></MultipleChoiceQuestion>
             <hr></hr>
             { <DoubleHalf></DoubleHalf> }
+
+            <DoubleHalf></DoubleHalf> 
             <hr></hr>
             <ChooseTeam></ChooseTeam>
             <hr></hr>
